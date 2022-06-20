@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, FlatList } from "react-native";
+import { Text, FlatList } from "react-native";
 import spots from "../../data/spots.js";
 import SpotItem from "./SpotItem.jsx";
 
