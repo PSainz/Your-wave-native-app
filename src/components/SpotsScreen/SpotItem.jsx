@@ -31,6 +31,9 @@ const SpotItem = (spot) => {
         style={styles.image}
       >
         <Text style={styles.text}>{spot.spot_name}</Text>
+        <Text style={styles.text}>{spot.break_type}</Text>
+        <Text style={styles.text}>{spot.city}</Text>
+        <Text style={styles.text}>{spot.country}</Text>
       </ImageBackground>
     </View>
   );

@@ -10,12 +10,34 @@ import NearbyScreen from './src/components/NearbyScreen/NearbyScreen';
 import plus from './assets/plus.png'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useRef } from 'react';
+import { Provider } from 'react-redux';
+import store from './store.js';
 
 const Tab = createBottomTabNavigator();
+
+function getWidth() {
+  let width = Dimensions.get("window").width
+
+  // Horizontal Padding = 20...
+  width = width - 80
+
+  // Total five Tabs...
+  return width / 5
+}
+
+const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+    // backgroundColor: '#272F40',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+});
 
 export default function App() {
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <Tab.Navigator tabBarOptions={{
         showLabel: false,
@@ -135,24 +157,7 @@ export default function App() {
 
       </Animated.View>
     </NavigationContainer>
+    </Provider>
   );
 }
 
-function getWidth() {
-  let width = Dimensions.get("window").width
-
-  // Horizontal Padding = 20...
-  width = width - 80
-
-  // Total five Tabs...
-  return width / 5
-}
-
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // backgroundColor: '#272F40',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
-});
