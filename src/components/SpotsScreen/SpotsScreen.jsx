@@ -1,45 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
-import { fetchSpots } from "../../redux/actions/SpotActions.js";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import SpotItem from "./SpotItem.jsx";
+import useSpots from "../../hooks/useSpots.js";
 
 export default SpotsScreen = () => {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const dispatch = useDispatch();
-
-  // const getSpots = async () => {
-  //   try {
-  //     const response = await fetch("https://your-wave-api.herokuapp.com/");
-  //     const json = await response.json();
-  //     setData(json);
-  //     // console.log(data, "DATA JSON");
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getSpots();
-  // }, []);
-
-  useEffect(() => {
-    dispatch(fetchSpots(setData));
-    setLoading(false);
-  }, [dispatch]);
-
-  console.log(data[0].location, "DATA");
+  const { spots } = useSpots();
 
   return (
     <View style={{ flex: 1, padding: 4 }}>
-      {isLoading ? (
+      {!spots ? (
         <ActivityIndicator />
       ) : (
         <FlatList
-          data={data}
+          data={spots}
           keyExtractor={({ id }, index) => id}
           renderItem={({ item: spot }) => <SpotItem {...spot} />}
         />

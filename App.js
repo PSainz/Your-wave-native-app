@@ -10,8 +10,6 @@ import NearbyScreen from './src/components/NearbyScreen/NearbyScreen';
 import plus from './assets/plus.png'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useRef } from 'react';
-import { Provider } from 'react-redux';
-import store from './store.js';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +35,6 @@ const styles = StyleSheet.create({
 export default function App() {
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
   return (
-    <Provider store={store}>
     <NavigationContainer>
       <Tab.Navigator tabBarOptions={{
         showLabel: false,
@@ -157,7 +154,6 @@ export default function App() {
 
       </Animated.View>
     </NavigationContainer>
-    </Provider>
   );
 }
 
