@@ -2,10 +2,11 @@ import React from "react";
 import { Text, View } from "react-native";
 import Form from "./Form";
 
-const CreateSpotScreen = () => {
+const CreateSpotScreen = ({ location }) => {
+  console.log(location, "LOCATION CREATE");
   return (
     <View>
-      <Form />
+      <Form location={location} />
     </View>
   );
 };

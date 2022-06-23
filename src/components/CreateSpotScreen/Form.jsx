@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, TextInput, View } from "react-native";
+import { Button, TextInput, View, Text } from "react-native";
 import { Formik } from "formik";
 
 const submitForm = (values, { resetForm }) => {
@@ -24,7 +24,7 @@ const submitForm = (values, { resetForm }) => {
   resetForm();
 };
 
-const Form = (props) => (
+const Form = ({ location }) => (
   <Formik
     initialValues={{
       spot_name: "",
@@ -84,6 +84,7 @@ const Form = (props) => (
           style={{ backgroundColor: "grey", padding: 3, marginBottom: 3 }}
         />
         <Button onPress={handleSubmit} title="Submit" />
+        <Text>{location.coords.latitude}</Text>
       </View>
     )}
   </Formik>

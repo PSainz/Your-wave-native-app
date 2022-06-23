@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React , { useCallback, useEffect, useState }from 'react';
 import { Animated, Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Entypo from '@expo/vector-icons/Entypo';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,6 +13,8 @@ import NearbyScreen from './src/components/NearbyScreen/NearbyScreen';
 import plus from './assets/plus.png'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useRef } from 'react';
+import * as Location from 'expo-location';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -33,10 +38,74 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
+  const [appIsReady, setAppIsReady] = useState(false);
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  // const [status, requestPermission] = Location.useBackgroundPermissions();
+  
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Keep the splash screen visible while we fetch resources
+        await SplashScreen.preventAutoHideAsync();
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync(Entypo.font);
+        // Artificially delay for two seconds to simulate a slow loading
+        // experience. Please remove this if you copy and paste the code!
+        await new Promise(resolve => setTimeout(resolve, 1300));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      console.log(location, "LOOOOOOCATION APP");
+    })();
+  }, []);
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator tabBarOptions={{
+    <NavigationContainer >
+      <Tab.Navigator  tabBarOptions={{
         showLabel: false,
         // Floating Tab Bar...
         style: {
@@ -58,9 +127,9 @@ export default function App() {
         }
       }}>
 
-        <Tab.Screen name={"Spots"} component={SpotsScreen} options={{
+        <Tab.Screen onLayout={onLayoutRootView} name={"Spots"} component={SpotsScreen}  options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{
+            <View onLayout={onLayoutRootView}  style={{
               // centring Tab Button...
               position: 'absolute',
               top: 20
@@ -82,7 +151,7 @@ export default function App() {
           }
         })}></Tab.Screen>
 
-        <Tab.Screen name={"Create"} component={CreateSpotScreen} options={{
+        <Tab.Screen name={"Create"}  component={ () => <CreateSpotScreen location={location} />}   options={{
           tabBarIcon: ({ focused }) => (
               <View style={{
                 width: 55,
