@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/picker": "^1.8.1",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
@@ -25,7 +26,9 @@
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
     "react-native-country-picker-modal": "^2.0.0",
+    "react-native-dropdown-picker": "^5.4.2",
     "react-native-element-dropdown": "^2.0.0",
+    "react-native-flags": "^1.0.0",
     "react-native-gesture-handler": "~2.2.1",
     "react-native-paper": "^4.12.1",
     "react-native-reanimated": "^2.8.0",
@@ -36,7 +39,8 @@
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.7",
     "react-navigation": "^4.4.4",
-    "react-navigation-tabs": "^2.11.2"
+    "react-navigation-tabs": "^2.11.2",
+    "rn-country-dropdown-picker": "^2.1.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
