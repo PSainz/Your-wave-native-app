@@ -1,14 +1,12 @@
 import React from "react";
 import { Text, View } from "react-native";
 import Form from "./Form";
-import FormPrueba from "./FormPrueba";
-// import SelectCountries from "./SelectCountries";
+import CheckBox from "./CheckboxPrueba";
 
 const CreateSpotScreen = ({ location }) => {
   return (
     <View>
-      {/* <SelectCountries /> */}
-      <FormPrueba />
+      <CheckBox />
       <Text></Text>
       <Form location={location} />
     </View>

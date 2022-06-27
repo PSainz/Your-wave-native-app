@@ -5,6 +5,7 @@ import CountryPicker from "react-native-country-picker-modal";
 
 const Form = ({ location }) => {
   const [country, setCountry] = useState("");
+  let countryRender = country.name || "Country";
 
   const submitForm = (values, { resetForm }) => {
     const apiUrl = "https://your-wave-api.vercel.app/";
@@ -50,10 +51,11 @@ const Form = ({ location }) => {
         rating: "",
         vibe: "",
         beer: "",
-        location: {
-          lat: location.coords.latitude,
-          lng: location.coords.longitude,
-        },
+        location:
+          {
+            lat: location.coords.latitude,
+            lng: location.coords.longitude,
+          } || "",
         selectedFile: "",
       }}
       onSubmit={submitForm}
@@ -69,37 +71,31 @@ const Form = ({ location }) => {
               height: 40,
               borderColor: "gray",
               borderWidth: 1,
-              marginBottom: 5,
+              marginBottom: 20,
             }}
           />
+
+          <Text>Country*</Text>
           <CountryPicker
-            style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+            placeholder={countryRender}
             withFilter
             withFlag
-            withAlphaFilter={false}
+            withAlphaFilter={true}
             withCurrencyButton={false}
-            withCallineCode
+            withCallineCode={false}
+            withCountryNameButton
             onSelect={(country) => {
               setCountry(country);
             }}
             containerButtonStyle={{
               height: 40,
-              borderColor: "red",
+              borderColor: "blue",
               borderWidth: 1,
+              padding: 6,
+              marginBottom: 20,
             }}
+            label={country.name}
           />
-
-          {/* <CountryPicker
-            style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-            withFilter
-            withFlag
-            withAlphaFilter={false}
-            withCurrencyButton={false}
-            withCallineCode
-            onSelect={(country) => {
-              setCountry(country);
-            }}
-          /> */}
           <Text>City*</Text>
           <TextInput
             onChangeText={handleChange("city")}
@@ -109,9 +105,16 @@ const Form = ({ location }) => {
               height: 40,
               borderColor: "gray",
               borderWidth: 1,
-              marginBottom: 3,
+              marginBottom: 20,
             }}
           />
+          <Text
+            style={{
+              marginBottom: 20,
+            }}
+          >
+            Spot details
+          </Text>
           <Text>Wave form*</Text>
           <TextInput
             onChangeText={handleChange("wave_form")}
