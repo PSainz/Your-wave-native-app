@@ -1,13 +1,16 @@
 import React from "react";
 import { Text, View } from "react-native";
 import Form from "./Form";
-import CheckBox from "./CheckboxPrueba";
+import Cam from "./Cam";
+import ActionSheet from "./ActionSheet";
 
 const CreateSpotScreen = ({ location }) => {
   return (
     <View>
       <Text></Text>
-      <Form location={location} />
+      <Cam />
+      <ActionSheet />
+      {/* <Form location={location} /> */}
     </View>
   );
 };
