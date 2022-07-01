@@ -39,6 +39,7 @@
     "react-native-element-dropdown": "^2.0.0",
     "react-native-flags": "^1.0.0",
     "react-native-gesture-handler": "~2.2.1",
+    "react-native-image-base64": "^0.1.4",
     "react-native-image-picker": "^4.8.4",
     "react-native-image-picker-modal": "^0.1.3",
     "react-native-modal": "^13.0.1",

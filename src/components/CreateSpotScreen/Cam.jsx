@@ -6,11 +6,10 @@ import {
   Image,
   Button,
   ScrollView,
+  ActionSheetIOS,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import ImagePickerModal from "react-native-image-picker-modal";
-import useStateWithCallback from "@freakycoder/react-use-state-with-callback";
-import RNBounceable from "@freakycoder/react-native-bounceable";
+import ImgToBase64 from "react-native-image-base64";
 
 const styles = StyleSheet.create({
   screen: {
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Cam = () => {
+const Cam = (props) => {
   // The path of the picked image
   const [pickedImagePath, setPickedImagePath] = useState("");
 
@@ -57,7 +56,11 @@ const Cam = () => {
 
     if (!result.cancelled) {
       setPickedImagePath(result.uri);
-      console.log(result.uri);
+      props.func(result.uri);
+      ImgToBase64.getBase64String(result.uri)
+        .then((base64String) => console.log(base64String, "Base64String"))
+        .catch((err) => console.log(err));
+      console.log(result.uri, "del cam");
     }
   };
 
@@ -81,25 +84,33 @@ const Cam = () => {
       console.log(result.uri);
     }
   };
+
+  const openModalCam = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ["Cancel", "Take a picture", "Select existing photo"],
+        // destructiveButtonIndex: 2,
+        cancelButtonIndex: 0,
+        userInterfaceStyle: "dark",
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          // cancel action
+        } else if (buttonIndex === 1) {
+          console.log("Take picture");
+          openCamera();
+        } else if (buttonIndex === 2) {
+          console.log("Select existing photo");
+          showImagePicker();
+        }
+      }
+    );
+
   return (
     <ScrollView>
-      <View style={styles.screen}>
-        <View style={styles.buttonContainer}>
-          <Button onPress={showImagePicker} title="Select an image" />
-          <Button onPress={openCamera} title="Open camera" />
-        </View>
-
-        <View style={styles.imageContainer}>
-          {pickedImagePath !== "" && (
-            <Image source={{ uri: pickedImagePath }} style={styles.image} />
-          )}
-        </View>
-      </View>
+      <Button onPress={openModalCam} title="Picture" />
     </ScrollView>
   );
 };
-
-// Kindacode.com
-// Just some styles
 
 export default Cam;

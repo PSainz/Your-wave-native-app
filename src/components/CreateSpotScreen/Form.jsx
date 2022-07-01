@@ -8,6 +8,7 @@ import { waveDirections } from "../../utils/waveDirections.js";
 import { breakTypes } from "../../utils/breakTypes.js";
 import { vibes } from "../../utils/vibe.js";
 import { ScrollView } from "react-native-gesture-handler";
+import Cam from "./Cam";
 
 const Form = ({ location }) => {
   const [country, setCountry] = useState("");
@@ -15,10 +16,18 @@ const Form = ({ location }) => {
   const [waveDirection, setWaveDirection] = useState("");
   const [breakType, setBreakType] = useState("");
   const [vibe, setVibe] = useState("");
+  const [selected_File, setSelectedFile] = useState("");
 
   let countryRender = country.name || "Country";
 
+  const pull_data = (data) => {
+    // selected_File = data.uri;
+    // setSelectedFile(data.uri);
+    console.log(data, "DATA");
+  };
+
   const submitForm = (values, { resetForm }) => {
+    console.log(selected_File, "DENTRO DEL SUBMIT");
     const apiUrl = "https://your-wave-api.vercel.app/";
     fetch(apiUrl, {
       method: "POST",
@@ -37,6 +46,7 @@ const Form = ({ location }) => {
         location: values.location,
         vibe: vibe,
         beer: values.beer,
+        selectedFile: selected_File,
       }),
     });
     resetForm();
@@ -231,7 +241,7 @@ const Form = ({ location }) => {
                 marginBottom: 5,
               }}
             />
-            <Text>CAMERA</Text>
+            <Cam func={pull_data} />
             <Text>Rating*</Text>
             <TextInput
               onChangeText={handleChange("rating")}
