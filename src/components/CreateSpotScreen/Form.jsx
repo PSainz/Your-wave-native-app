@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, TextInput, View, Text, Touchable } from "react-native";
+import {
+  Button,
+  TextInput,
+  View,
+  Text,
+  Touchable,
+  ScrollView,
+  ActionSheetIOS,
+  StyleSheet,
+} from "react-native";
 import { Formik } from "formik";
 import CountryPicker from "react-native-country-picker-modal";
 import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
@@ -7,7 +16,6 @@ import { waveForms } from "../../utils/waveForm.js";
 import { waveDirections } from "../../utils/waveDirections.js";
 import { breakTypes } from "../../utils/breakTypes.js";
 import { vibes } from "../../utils/vibe.js";
-import { ScrollView } from "react-native-gesture-handler";
 import Cam from "./Cam";
 
 const Form = ({ location }) => {
@@ -21,13 +29,10 @@ const Form = ({ location }) => {
   let countryRender = country.name || "Country";
 
   const pull_data = (data) => {
-    // selected_File = data.uri;
-    // setSelectedFile(data.uri);
-    console.log(data, "DATA");
+    setSelectedFile(data);
   };
 
   const submitForm = (values, { resetForm }) => {
-    console.log(selected_File, "DENTRO DEL SUBMIT");
     const apiUrl = "https://your-wave-api.vercel.app/";
     fetch(apiUrl, {
       method: "POST",
@@ -242,6 +247,7 @@ const Form = ({ location }) => {
               }}
             />
             <Cam func={pull_data} />
+            {/* <Button onPress={openModalCam} title="Picture" /> */}
             <Text>Rating*</Text>
             <TextInput
               onChangeText={handleChange("rating")}

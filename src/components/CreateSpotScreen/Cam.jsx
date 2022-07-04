@@ -9,7 +9,7 @@ import {
   ActionSheetIOS,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import ImgToBase64 from "react-native-image-base64";
+import * as FileSystem from "expo-file-system";
 
 const styles = StyleSheet.create({
   screen: {
@@ -35,12 +35,9 @@ const styles = StyleSheet.create({
 });
 
 const Cam = (props) => {
-  // The path of the picked image
   const [pickedImagePath, setPickedImagePath] = useState("");
 
-  // This function is triggered when the "Select an image" button pressed
   const showImagePicker = async () => {
-    // Ask the user for the permission to access the media library
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -51,22 +48,14 @@ const Cam = (props) => {
 
     const result = await ImagePicker.launchImageLibraryAsync();
 
-    // Explore the result
-    console.log(result);
-
     if (!result.cancelled) {
+      // setSelectedFile(result.uri);
       setPickedImagePath(result.uri);
       props.func(result.uri);
-      ImgToBase64.getBase64String(result.uri)
-        .then((base64String) => console.log(base64String, "Base64String"))
-        .catch((err) => console.log(err));
-      console.log(result.uri, "del cam");
     }
   };
 
-  // This function is triggered when the "Open camera" button pressed
   const openCamera = async () => {
-    // Ask the user for the permission to access the camera
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
     if (permissionResult.granted === false) {
@@ -76,12 +65,10 @@ const Cam = (props) => {
 
     const result = await ImagePicker.launchCameraAsync();
 
-    // Explore the result
-    console.log(result, "result");
-
     if (!result.cancelled) {
+      // setSelectedFile(result.uri);
       setPickedImagePath(result.uri);
-      console.log(result.uri);
+      props.func(result.uri);
     }
   };
 
