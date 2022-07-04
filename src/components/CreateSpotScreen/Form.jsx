@@ -1,22 +1,13 @@
 import React, { useState } from "react";
-import {
-  Button,
-  TextInput,
-  View,
-  Text,
-  Touchable,
-  ScrollView,
-  ActionSheetIOS,
-  StyleSheet,
-} from "react-native";
+import { Button, TextInput, View, Text, ScrollView } from "react-native";
 import { Formik } from "formik";
 import CountryPicker from "react-native-country-picker-modal";
 import BouncyCheckboxGroup from "react-native-bouncy-checkbox-group";
-import { waveForms } from "../../utils/waveForm.js";
-import { waveDirections } from "../../utils/waveDirections.js";
-import { breakTypes } from "../../utils/breakTypes.js";
 import { vibes } from "../../utils/vibe.js";
 import Cam from "./Cam";
+import SelectWaveForm from "./SelectWaveForm.jsx";
+import SelectWaveDirection from "./SelectWaveDirection.jsx";
+import SelectBreakType from "./SelectBreakType.jsx";
 
 const Form = ({ location }) => {
   const [country, setCountry] = useState("");
@@ -28,8 +19,20 @@ const Form = ({ location }) => {
 
   let countryRender = country.name || "Country";
 
-  const pull_data = (data) => {
-    setSelectedFile(data);
+  const pullCam = (pictureData) => {
+    setSelectedFile(pictureData);
+  };
+
+  const pullWaveForm = (waveFormData) => {
+    setWaveForm(waveFormData);
+  };
+
+  const pullWaveDirection = (waveDirectionData) => {
+    setWaveDirection(waveDirectionData);
+  };
+
+  const pullBreakType = (breakTypeData) => {
+    setBreakType(breakTypeData);
   };
 
   const submitForm = (values, { resetForm }) => {
@@ -60,7 +63,7 @@ const Form = ({ location }) => {
     setWaveDirection("");
     setBreakType("");
     setVibe("");
-    console.log("puto form reseteado", vibe, "VIBE");
+    setSelectedFile("");
   };
 
   const ControlRenderLocation = () => {
@@ -148,76 +151,9 @@ const Form = ({ location }) => {
             >
               Spot details
             </Text>
-            <Text>Wave form</Text>
-            <BouncyCheckboxGroup
-              // textStyle={{
-              //   textDecorationLine: "none",
-              // }}
-              data={waveForms}
-              style={{
-                // flexDirection: "row",
-                // justifyContent: "space-around",
-                // paddingLeft: 40,
-                // borderColor: "gray",
-                // borderWidth: 1,
-                borderColor: "gray",
-                borderWidth: 1,
-                justifyContent: "space-evenly",
-                flex: 2,
-                alignItems: "center",
-                alignSelf: "flex-start",
-                width: "100%",
-                marginBottom: 50,
-              }}
-              onChange={(e) => setWaveForm(e.text)}
-            />
-            <Text>Wave direction</Text>
-            <BouncyCheckboxGroup
-              // textStyle={{
-              //   paddingRight: 50,
-              // }}
-              data={waveDirections}
-              style={{
-                // flexDirection: "row",
-                // justifyContent: "space-around",
-                // paddingLeft: 40,
-                // borderColor: "gray",
-                // borderWidth: 1,
-                // paddingLeft: 20,
-                borderColor: "gray",
-                borderWidth: 1,
-                justifyContent: "space-evenly",
-                flex: 2,
-                alignItems: "center",
-                alignSelf: "flex-start",
-                width: "100%",
-                marginBottom: 50,
-              }}
-              onChange={(e) => setWaveDirection(e.text)}
-            />
-            <Text>Break Type</Text>
-            <BouncyCheckboxGroup
-              // textStyle={{
-              //   textDecorationLine: "none",
-              // }}
-              data={breakTypes}
-              style={{
-                // flexDirection: "row",
-                // justifyContent: "space-around",
-                // paddingLeft: 40,
-                // borderColor: "gray",
-                // borderWidth: 1,
-                borderColor: "gray",
-                borderWidth: 1,
-                justifyContent: "space-evenly",
-                flex: 2,
-                alignItems: "center",
-                alignSelf: "baseline",
-                width: "100%",
-                marginBottom: 50,
-              }}
-              onChange={(e) => setBreakType(e.text)}
-            />
+            <SelectWaveForm func={pullWaveForm} />
+            <SelectWaveDirection func={pullWaveDirection} />
+            <SelectBreakType func={pullBreakType} />
             <Text>Vibe*</Text>
             <BouncyCheckboxGroup
               // textStyle={{
@@ -246,7 +182,7 @@ const Form = ({ location }) => {
                 marginBottom: 5,
               }}
             />
-            <Cam func={pull_data} />
+            <Cam func={pullCam} />
             {/* <Button onPress={openModalCam} title="Picture" /> */}
             <Text>Rating*</Text>
             <TextInput
