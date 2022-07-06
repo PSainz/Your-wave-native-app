@@ -1,8 +1,8 @@
 export const vibes = [
     {
       id: 0,
-      value: "Ok",
-      text: "Ok",
+      value: "Ok ",
+      text: "Ok 🤙🏿 ",
       fillColor: "#84E0DA",
       unfillColor: "white",
     },
@@ -10,7 +10,7 @@ export const vibes = [
     {
       id: 1,
       value: "Ko",
-      text: "Ko",
+      text: "Ko 👎🏿",
       fillColor: "#84E0DA",
       unfillColor: "white",
     }

@@ -16,6 +16,7 @@ const Form = ({ location }) => {
   const [breakType, setBreakType] = useState("");
   const [vibe, setVibe] = useState("");
   const [selected_File, setSelectedFile] = useState("");
+  const beerNear = "Beer Near 🍻 ❄️";
 
   let countryRender = country.name || "Country";
 
@@ -170,7 +171,7 @@ const Form = ({ location }) => {
               }}
               onChange={(e) => setVibe(e.text)}
             />
-            <Text>Beer*</Text>
+            <Text>{beerNear}</Text>
             <TextInput
               onChangeText={handleChange("beer")}
               onBlur={handleBlur("rating")}
