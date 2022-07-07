@@ -1,11 +1,13 @@
 import React from "react";
 import { View } from "react-native";
 import Form from "./Form";
+import Map from "./Map";
 
 const CreateSpotScreen = ({ location }) => {
   return (
     <View>
-      <Form location={location} />
+      <Map location={location} />
+      {/* <Form location={location} /> */}
     </View>
   );
 };

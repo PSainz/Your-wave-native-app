@@ -1,14 +1,14 @@
 export const waveDirections = [
   {
-    id:0,
+    label: "Left",
     value: "Left",
   },
   {
-    id:1,
+    label: "Right",
     value: "Right",
   },
   {
-    id:2,
+    label: "A-Frame",
     value: "A-Frame",
   },
 ];

@@ -1,15 +1,15 @@
 export const waveForms = [
   {
-    id: 0,
+    label:  "Hollow",
     value: "Hollow",
   },
 
   {
-    id: 1,
+    label: "Fat",
     value: "Fat",
   },
   {
-    id: 2,
+    label: "Mellow",
     value: "Mellow",
   },
 ];

@@ -26,11 +26,13 @@ const SelectBreakType = (props) => {
     <View style={styles.container}>
       {renderLabel()}
       <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+        style={[styles.dropdown, isFocus]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
+        iconColor={styles.iconColor}
+        containerStyle={styles.containerStyle}
         data={breakTypes}
         maxHeight={300}
         labelField="label"
@@ -56,6 +58,10 @@ const styles = StyleSheet.create({
     // backgroundColor: "white",
     padding: 16,
   },
+  containerStyle: {
+    backgroundColor: "gray",
+  },
+
   dropdown: {
     height: 50,
     borderColor: "gray",
@@ -68,22 +74,28 @@ const styles = StyleSheet.create({
   },
   label: {
     position: "absolute",
-    backgroundColor: "white",
-    left: 22,
-    top: 8,
+    backgroundColor: "transparent",
+    left: 16,
+    top: 0,
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
+    display: "none",
   },
   placeholderStyle: {
     fontSize: 16,
+    backgroundColor: "transparent",
   },
   selectedTextStyle: {
     fontSize: 16,
+    backgroundColor: "transparent",
   },
   iconStyle: {
     width: 20,
     height: 20,
+  },
+  iconColor: {
+    color: "red",
   },
   inputSearchStyle: {
     height: 40,
