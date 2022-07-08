@@ -9,7 +9,77 @@ import {
   ActionSheetIOS,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
+import Icon from "react-native-vector-icons/FontAwesome5";
+
+const Cam = (props) => {
+  const [pickedImagePath, setPickedImagePath] = useState("");
+
+  const showImagePicker = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your photos!");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync();
+
+    if (!result.cancelled) {
+      setPickedImagePath(result.uri);
+      props.func(result.uri);
+    }
+  };
+
+  const openCamera = async () => {
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your camera!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync();
+
+    if (!result.cancelled) {
+      setPickedImagePath(result.uri);
+      props.func(result.uri);
+    }
+  };
+
+  const openModalCam = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ["Cancel", "Take a picture", "Select existing photo"],
+        // destructiveButtonIndex: 2,
+        cancelButtonIndex: 0,
+        userInterfaceStyle: "dark",
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          // cancel action
+        } else if (buttonIndex === 1) {
+          openCamera();
+        } else if (buttonIndex === 2) {
+          showImagePicker();
+        }
+      }
+    );
+
+  return (
+    <View>
+      <Icon
+        name="camera-retro"
+        size={110}
+        color="#84E0DA"
+        onPress={openModalCam}
+        style={styles.buttonCam}
+      />
+    </View>
+  );
+};
+
+export default Cam;
 
 const styles = StyleSheet.create({
   screen: {
@@ -32,72 +102,8 @@ const styles = StyleSheet.create({
     height: 300,
     resizeMode: "cover",
   },
+  buttonCam: {
+    marginTop: -10,
+    marginBottom: 40,
+  },
 });
-
-const Cam = (props) => {
-  const [pickedImagePath, setPickedImagePath] = useState("");
-
-  const showImagePicker = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert("You've refused to allow this appp to access your photos!");
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync();
-
-    if (!result.cancelled) {
-      // setSelectedFile(result.uri);
-      setPickedImagePath(result.uri);
-      props.func(result.uri);
-    }
-  };
-
-  const openCamera = async () => {
-    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert("You've refused to allow this appp to access your camera!");
-      return;
-    }
-
-    const result = await ImagePicker.launchCameraAsync();
-
-    if (!result.cancelled) {
-      // setSelectedFile(result.uri);
-      setPickedImagePath(result.uri);
-      props.func(result.uri);
-    }
-  };
-
-  const openModalCam = () =>
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ["Cancel", "Take a picture", "Select existing photo"],
-        // destructiveButtonIndex: 2,
-        cancelButtonIndex: 0,
-        userInterfaceStyle: "dark",
-      },
-      (buttonIndex) => {
-        if (buttonIndex === 0) {
-          // cancel action
-        } else if (buttonIndex === 1) {
-          console.log("Take picture");
-          openCamera();
-        } else if (buttonIndex === 2) {
-          console.log("Select existing photo");
-          showImagePicker();
-        }
-      }
-    );
-
-  return (
-    <ScrollView>
-      <Button onPress={openModalCam} title="Picture" />
-    </ScrollView>
-  );
-};
-
-export default Cam;

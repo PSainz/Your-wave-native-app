@@ -54,8 +54,10 @@ export default SelectWaveDirection;
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "white",
+    width: 375,
+    height: 45,
     padding: 16,
+    marginBottom: 10,
   },
   containerStyle: {
     backgroundColor: "gray",

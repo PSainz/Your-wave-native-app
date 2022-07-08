@@ -163,7 +163,7 @@ export default function App() {
               <FontAwesome5
                 name="user-alt"
                 size={20}
-                color={focused ? '#84E0DA' : 'gray'}
+                color={focused ? '#84E0DA' : 'black'}
               ></FontAwesome5>
             </View>
           )
