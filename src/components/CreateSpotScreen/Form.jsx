@@ -6,6 +6,8 @@ import {
   Text,
   ScrollView,
   StyleSheet,
+  Keyboard,
+  Pressable,
 } from "react-native";
 import { Formik } from "formik";
 import CountryPicker from "react-native-country-picker-modal";
@@ -16,6 +18,7 @@ import SelectWaveForm from "./SelectWaveForm.jsx";
 import SelectWaveDirection from "./SelectWaveDirection.jsx";
 import SelectBreakType from "./SelectBreakType.jsx";
 import Map from "./Map.jsx";
+import Rating from "./Rating.jsx";
 
 const Form = ({ location }) => {
   const [country, setCountry] = useState("");
@@ -25,9 +28,11 @@ const Form = ({ location }) => {
   const [vibe, setVibe] = useState("");
   const [selected_File, setSelectedFile] = useState("");
   const [locationSelected, setLocation] = useState("");
+  const [ratingSelected, setRating] = useState("");
+  const [focus, setFocus] = useState(false);
+  console.log("focus: " + focus);
   const beerNear = "Beer Near 🍻 ❄️";
-
-  const [backgroundColor, setBackgroundColor] = useState();
+  const customStyle = focus ? styles.textInputFocus : styles.spotName;
 
   let countryRender = country.name || "Country";
 
@@ -51,6 +56,10 @@ const Form = ({ location }) => {
     setLocation(region);
   };
 
+  const pullRating = (ratingData) => {
+    setRating(ratingData);
+  };
+
   const submitForm = (values, { resetForm }) => {
     const apiUrl = "https://your-wave-api.vercel.app/";
     fetch(apiUrl, {
@@ -66,7 +75,7 @@ const Form = ({ location }) => {
         wave_form: waveForm,
         wave_direction: waveDirection,
         break_type: breakType,
-        rating: values.rating,
+        rating: ratingSelected,
         location: locationSelected,
         vibe: vibe,
         beer: values.beer,
@@ -81,6 +90,8 @@ const Form = ({ location }) => {
     setVibe("");
     setSelectedFile("");
     setLocation("");
+    setRating(0);
+    console.log("submitForm");
   };
 
   const ControlRenderLocation = () => {
@@ -119,10 +130,12 @@ const Form = ({ location }) => {
             <Text style={styles.spotNameText}>Spot Name*</Text>
             <TextInput
               onChangeText={handleChange("spot_name")}
-              onBlur={() => setBackgroundColor("yellow")}
               value={values.spot_name}
-              style={styles.spotName}
-              // onFocus={() => style={styles.spotName}}
+              style={customStyle}
+              onFocus={() => setFocus(true)}
+              //  Keyboard.dismmiss()
+              onSubmitEditing={setFocus(false)}
+              selectionColor="blue"
             />
 
             <Text style={styles.spotCountryText}>Country*</Text>
@@ -166,24 +179,17 @@ const Form = ({ location }) => {
             />
 
             <Cam func={pullCam} />
-            <Text>Rating*</Text>
-            <TextInput
-              onChangeText={handleChange("rating")}
-              onBlur={handleBlur("rating")}
-              value={values.rating}
-              style={{
-                height: 40,
-                borderColor: "gray",
-                borderWidth: 1,
-                marginBottom: 5,
-                width: 340,
-              }}
-            />
-            <Button
+            <Text style={styles.ratingText}>Rate it!*</Text>
+            <Rating func={pullRating} />
+            <Pressable style={styles.buttonSubmit} onPress={handleSubmit}>
+              <Text style={styles.text}>Submit</Text>
+            </Pressable>
+            {/* <Button
               onPress={handleSubmit}
               title="Submit"
               style={styles.buttonSubmit}
-            />
+              color="#841584"
+            /> */}
           </View>
         )}
       </Formik>
@@ -199,6 +205,15 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  textInputFocus: {
+    height: 45,
+    width: 340,
+    borderColor: "blue",
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginBottom: 20,
   },
   spotName: {
     height: 45,
@@ -262,6 +277,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
+  ratingText: {
+    fontSize: 18,
+  },
   vibeCheckbox: {
     width: 220,
     flexDirection: "row",
@@ -276,5 +294,21 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: 20,
+  },
+  buttonSubmit: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "black",
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
   },
 });
