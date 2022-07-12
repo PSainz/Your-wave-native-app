@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
-  Button,
+  RefreshControl,
   TextInput,
   View,
   Text,
-  ScrollView,
   StyleSheet,
-  Keyboard,
+  SafeAreaView,
+  ScrollView,
   Pressable,
 } from "react-native";
 import { Formik } from "formik";
@@ -20,6 +20,10 @@ import SelectBreakType from "./SelectBreakType.jsx";
 import Map from "./Map.jsx";
 import Rating from "./Rating.jsx";
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 const Form = ({ location }) => {
   const [country, setCountry] = useState("");
   const [waveForm, setWaveForm] = useState("");
@@ -29,12 +33,18 @@ const Form = ({ location }) => {
   const [selected_File, setSelectedFile] = useState("");
   const [locationSelected, setLocation] = useState("");
   const [ratingSelected, setRating] = useState("");
-  const [focus, setFocus] = useState(false);
-  console.log("focus: " + focus);
   const beerNear = "Beer Near 🍻 ❄️";
-  const customStyle = focus ? styles.textInputFocus : styles.spotName;
+  const [refreshing, setRefreshing] = React.useState(false);
+  // const viewRef = useRef();
+  // console.log(ratingSelected, "RATING");
 
-  let countryRender = country.name || "Country";
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    // viewRef.current.setNativeProps();
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
+  let countryRender = country.name || "";
 
   const pullCam = (pictureData) => {
     setSelectedFile(pictureData);
@@ -90,8 +100,9 @@ const Form = ({ location }) => {
     setVibe("");
     setSelectedFile("");
     setLocation("");
-    setRating(0);
-    console.log("submitForm");
+    setRating(7);
+    // navigate("/spots");
+    console.log("submitForm", ratingSelected);
   };
 
   const ControlRenderLocation = () => {
@@ -103,97 +114,94 @@ const Form = ({ location }) => {
   };
 
   return location ? (
-    <ScrollView style={{ marginBottom: 40 }}>
-      <Formik
-        initialValues={{
-          spot_name: "",
-          country: "",
-          city: "",
-          wave_form: "",
-          wave_direction: "",
-          break_type: "",
-          rating: "",
-          vibe: "",
-          beer: "",
-          location:
-            {
-              lat: location.coords.latitude,
-              lng: location.coords.longitude,
-            } || "",
-          selectedFile: "",
-        }}
-        onSubmit={submitForm}
+    <SafeAreaView>
+      <ScrollView
+        style={{ marginBottom: 40 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <View style={styles.container}>
-            <Map func={pullMap} location={location} />
-            <Text style={styles.spotNameText}>Spot Name*</Text>
-            <TextInput
-              onChangeText={handleChange("spot_name")}
-              value={values.spot_name}
-              style={customStyle}
-              onFocus={() => setFocus(true)}
-              //  Keyboard.dismmiss()
-              onSubmitEditing={setFocus(false)}
-              selectionColor="blue"
-            />
+        <Formik
+          initialValues={{
+            spot_name: "",
+            country: "",
+            city: "",
+            wave_form: "",
+            wave_direction: "",
+            break_type: "",
+            rating: "",
+            vibe: "",
+            beer: "",
+            location:
+              {
+                lat: location.coords.latitude,
+                lng: location.coords.longitude,
+              } || "",
+            selectedFile: "",
+          }}
+          onSubmit={submitForm}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values }) => (
+            <View style={styles.container}>
+              <Map func={pullMap} location={location} />
+              <Text style={styles.spotNameText}>Spot Name*</Text>
+              <TextInput
+                onChangeText={handleChange("spot_name")}
+                value={values.spot_name}
+                style={styles.spotName}
+              />
 
-            <Text style={styles.spotCountryText}>Country*</Text>
-            <CountryPicker
-              placeholder={countryRender}
-              withFilter
-              withFlag
-              withAlphaFilter={true}
-              withCurrencyButton={false}
-              withCallineCode={false}
-              withCountryNameButton
-              onSelect={(country) => {
-                setCountry(country);
-              }}
-              containerButtonStyle={styles.country}
-              label={country.name}
-            />
-            <Text style={styles.cityText}>City*</Text>
-            <TextInput
-              onChangeText={handleChange("city")}
-              onBlur={handleBlur("city")}
-              value={values.city}
-              style={styles.cityInput}
-            />
-            <Text style={styles.spotDetailsText}>Spot details</Text>
-            <SelectWaveForm func={pullWaveForm} />
-            <SelectWaveDirection func={pullWaveDirection} />
-            <SelectBreakType func={pullBreakType} />
-            <Text style={styles.beerText}>{beerNear}</Text>
-            <TextInput
-              onChangeText={handleChange("beer")}
-              onBlur={handleBlur("beer")}
-              value={values.beer}
-              style={styles.beerInput}
-            />
-            <Text style={styles.vibeText}>Vibe on the peak*</Text>
-            <BouncyCheckboxGroup
-              data={vibes}
-              style={styles.vibeCheckbox}
-              onChange={(e) => setVibe(e.text)}
-            />
+              <Text style={styles.spotCountryText}>Country*</Text>
+              <CountryPicker
+                placeholder={countryRender}
+                withFilter
+                withFlag
+                withAlphaFilter={true}
+                withCurrencyButton={false}
+                withCallineCode={false}
+                withCountryNameButton
+                onSelect={(country) => {
+                  setCountry(country);
+                }}
+                containerButtonStyle={styles.country}
+                label={country.name}
+              />
+              <Text style={styles.cityText}>City*</Text>
+              <TextInput
+                onChangeText={handleChange("city")}
+                onBlur={handleBlur("city")}
+                value={values.city}
+                style={styles.cityInput}
+              />
+              <Text style={styles.spotDetailsText}>Spot details</Text>
+              <SelectWaveForm func={pullWaveForm} />
+              <SelectWaveDirection func={pullWaveDirection} />
+              <SelectBreakType func={pullBreakType} />
+              <Text style={styles.beerText}>{beerNear}</Text>
+              <TextInput
+                onChangeText={handleChange("beer")}
+                onBlur={handleBlur("beer")}
+                value={values.beer}
+                style={styles.beerInput}
+              />
+              <Text style={styles.vibeText}>Vibe on the peak*</Text>
+              <BouncyCheckboxGroup
+                data={vibes}
+                style={styles.vibeCheckbox}
+                onChange={(e) => setVibe(e.text)}
+              />
 
-            <Cam func={pullCam} />
-            <Text style={styles.ratingText}>Rate it!*</Text>
-            <Rating func={pullRating} />
-            <Pressable style={styles.buttonSubmit} onPress={handleSubmit}>
-              <Text style={styles.text}>Submit</Text>
-            </Pressable>
-            {/* <Button
-              onPress={handleSubmit}
-              title="Submit"
-              style={styles.buttonSubmit}
-              color="#841584"
-            /> */}
-          </View>
-        )}
-      </Formik>
-    </ScrollView>
+              <Cam func={pullCam} />
+              <Text style={styles.ratingText}>Rate it!*</Text>
+              <Rating func={pullRating} />
+              <Pressable style={styles.buttonSubmit} onPress={handleSubmit}>
+                <Text style={styles.text}>SUBMIT</Text>
+              </Pressable>
+            </View>
+          )}
+        </Formik>
+      </ScrollView>
+    </SafeAreaView>
   ) : (
     <ControlRenderLocation />
   );
@@ -261,6 +269,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: 20,
+    padding: 12,
   },
   cityInput: {
     height: 45,
@@ -302,7 +311,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: "black",
+    width: 340,
+    marginTop: 30,
+    backgroundColor: "#84E0DA",
   },
   text: {
     fontSize: 16,

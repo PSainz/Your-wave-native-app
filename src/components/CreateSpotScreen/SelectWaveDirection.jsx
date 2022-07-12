@@ -38,6 +38,7 @@ const SelectWaveDirection = (props) => {
         labelField="label"
         valueField="value"
         placeholder={!isFocus ? "Wave Direction*" : "..."}
+        dropdownPosition={"bottom"}
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}

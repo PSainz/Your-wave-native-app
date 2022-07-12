@@ -40,8 +40,8 @@ const Map = (props) => {
         initialRegion={{
           latitude: props.location.coords.latitude || "",
           longitude: props.location.coords.longitude || "",
-          latitudeDelta: 1,
-          longitudeDelta: 1,
+          latitudeDelta: 0.1,
+          longitudeDelta: 0.1,
         }}
         customMapStyle={mapStyle}
       >
@@ -56,6 +56,7 @@ const Map = (props) => {
           onDragEnd={(e) => setRegion(e.nativeEvent.coordinate)}
           title={"Choose Location"}
           pinColor={"#84E0DA"}
+          style={{ width: 26, height: 28 }}
         />
         <Button
           onPress={() => handlePress()}

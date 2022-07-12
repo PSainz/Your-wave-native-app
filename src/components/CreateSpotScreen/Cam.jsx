@@ -6,6 +6,7 @@ import {
   Image,
   Button,
   ScrollView,
+  Pressable,
   ActionSheetIOS,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -68,13 +69,16 @@ const Cam = (props) => {
 
   return (
     <View>
-      <Icon
-        name="camera-retro"
-        size={110}
-        color="#84E0DA"
-        onPress={openModalCam}
-        style={styles.buttonCam}
-      />
+      <Pressable style={styles.buttonSubmit} onPress={openModalCam}>
+        <Icon
+          name="camera-retro"
+          size={25}
+          color="#84E0DA"
+          onPress={openModalCam}
+          style={styles.buttonCam}
+        />
+        <Text style={styles.text}>Take Picture</Text>
+      </Pressable>
     </View>
   );
 };
@@ -82,6 +86,20 @@ const Cam = (props) => {
 export default Cam;
 
 const styles = StyleSheet.create({
+  text: {
+    fontSize: 18,
+  },
+  buttonSubmit: {
+    borderColor: "gray",
+    borderWidth: 0.5,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    width: 340,
+    height: 45,
+    marginBottom: 40,
+  },
   screen: {
     flex: 1,
     justifyContent: "center",
@@ -103,7 +121,6 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   buttonCam: {
-    marginTop: -10,
-    marginBottom: 40,
+    marginRight: 10,
   },
 });

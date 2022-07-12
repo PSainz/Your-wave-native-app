@@ -32,13 +32,14 @@ const SelectBreakType = (props) => {
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         iconColor={styles.iconColor}
+        activeColor={styles.activeColor}
         containerStyle={styles.containerStyle}
         data={breakTypes}
         maxHeight={300}
         labelField="label"
         valueField="value"
         placeholder={!isFocus ? "Break Type*" : "..."}
-        searchPlaceholder="Search..."
+        dropdownPosition={"bottom"}
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
@@ -103,5 +104,8 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+  },
+  activeColor: {
+    borderColor: "red",
   },
 });
