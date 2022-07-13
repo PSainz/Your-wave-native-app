@@ -12,7 +12,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-const Cam = (props) => {
+const Cam = ({ setSelectedFile }) => {
   const [pickedImagePath, setPickedImagePath] = useState("");
 
   const showImagePicker = async () => {
@@ -28,7 +28,7 @@ const Cam = (props) => {
 
     if (!result.cancelled) {
       setPickedImagePath(result.uri);
-      props.func(result.uri);
+      setSelectedFile(result.uri);
     }
   };
 
@@ -44,7 +44,7 @@ const Cam = (props) => {
 
     if (!result.cancelled) {
       setPickedImagePath(result.uri);
-      props.func(result.uri);
+      setSelectedFile(result.uri);
     }
   };
 

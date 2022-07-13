@@ -3,13 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { waveForms } from "../../utils/waveForm.js";
 
-const SelectWaveDirection = (props) => {
+const SelectWaveDirection = ({ setWaveForm }) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-
-  if (value !== null) {
-    props.func(value);
-  }
 
   const renderLabel = () => {
     if (value || isFocus) {
@@ -43,7 +39,7 @@ const SelectWaveDirection = (props) => {
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
-          setValue(item.value);
+          setWaveForm(item.value);
           setIsFocus(false);
         }}
       />

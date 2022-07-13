@@ -1,10 +1,11 @@
 import React from "react";
 import { Text, View } from "react-native";
+import MapNearby from "./MapNearby";
 
-const NearbyScreen = () => {
+const NearbyScreen = ({ spots, location }) => {
   return (
     <View>
-      <Text>NearbyScreen</Text>
+      <MapNearby spots={spots} location={location} />
     </View>
   );
 };

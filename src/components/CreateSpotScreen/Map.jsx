@@ -8,7 +8,6 @@ import {
   Button,
 } from "react-native";
 import { Marker } from "react-native-maps";
-import CustomMarker from "./CustomMarker.jsx";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { mapStyle } from "../../utils/mapStyle";
 

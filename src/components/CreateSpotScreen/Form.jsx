@@ -38,6 +38,8 @@ const Form = ({ location }) => {
   // const viewRef = useRef();
   // console.log(ratingSelected, "RATING");
 
+  console.log(locationSelected, "location selected");
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     // viewRef.current.setNativeProps();
@@ -46,28 +48,8 @@ const Form = ({ location }) => {
 
   let countryRender = country.name || "";
 
-  const pullCam = (pictureData) => {
-    setSelectedFile(pictureData);
-  };
-
-  const pullWaveForm = (waveFormData) => {
-    setWaveForm(waveFormData);
-  };
-
-  const pullWaveDirection = (waveDirectionData) => {
-    setWaveDirection(waveDirectionData);
-  };
-
-  const pullBreakType = (breakTypeData) => {
-    setBreakType(breakTypeData);
-  };
-
   const pullMap = (region) => {
     setLocation(region);
-  };
-
-  const pullRating = (ratingData) => {
-    setRating(ratingData);
   };
 
   const submitForm = (values, { resetForm }) => {
@@ -100,9 +82,10 @@ const Form = ({ location }) => {
     setVibe("");
     setSelectedFile("");
     setLocation("");
-    setRating(7);
+    setRating(1);
+
     // navigate("/spots");
-    console.log("submitForm", ratingSelected);
+    console.log("submitForm", ratingSelected, "ratingSelected");
   };
 
   const ControlRenderLocation = () => {
@@ -174,9 +157,12 @@ const Form = ({ location }) => {
                 style={styles.cityInput}
               />
               <Text style={styles.spotDetailsText}>Spot details</Text>
-              <SelectWaveForm func={pullWaveForm} />
-              <SelectWaveDirection func={pullWaveDirection} />
-              <SelectBreakType func={pullBreakType} />
+              <SelectWaveForm
+                setWaveForm={setWaveForm}
+                submitForm={submitForm}
+              />
+              <SelectWaveDirection setWaveDirection={setWaveDirection} />
+              <SelectBreakType setBreakType={setBreakType} />
               <Text style={styles.beerText}>{beerNear}</Text>
               <TextInput
                 onChangeText={handleChange("beer")}
@@ -191,9 +177,9 @@ const Form = ({ location }) => {
                 onChange={(e) => setVibe(e.text)}
               />
 
-              <Cam func={pullCam} />
+              <Cam setSelectedFile={setSelectedFile} />
               <Text style={styles.ratingText}>Rate it!*</Text>
-              <Rating func={pullRating} />
+              <Rating setRating={setRating} />
               <Pressable style={styles.buttonSubmit} onPress={handleSubmit}>
                 <Text style={styles.text}>SUBMIT</Text>
               </Pressable>

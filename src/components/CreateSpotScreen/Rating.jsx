@@ -9,14 +9,11 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import { Button } from "react-native-paper";
 
-const Rating = (props) => {
+const Rating = ({ setRating }) => {
   const [defaultRating, setDefaultRating] = useState(1);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
-
-  if (defaultRating >= 0) {
-    props.func(defaultRating);
-  }
 
   // Filled Star. You can also give the path from local
   const starImageFilled =
@@ -33,7 +30,10 @@ const Rating = (props) => {
             <TouchableOpacity
               activeOpacity={0.7}
               key={item}
-              onPress={() => setDefaultRating(item)}
+              onPress={() => {
+                setDefaultRating(item);
+                setRating(item);
+              }}
             >
               <Image
                 style={styles.starImageStyle}

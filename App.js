@@ -153,7 +153,7 @@ export default function App() {
 
        
 
-        <Tab.Screen name={"Nearby"} component={NearbyScreen} options={{
+        <Tab.Screen name={"Nearby Spots"} component={ () => <NearbyScreen spots={spots} location={location}/>} options={{
           tabBarIcon: ({ focused }) => (
             <View style={{
               // centring Tab Button...
