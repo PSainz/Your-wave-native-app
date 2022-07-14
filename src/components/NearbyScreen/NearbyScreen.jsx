@@ -1,11 +1,13 @@
 import React from "react";
 import { Text, View } from "react-native";
 import MapNearby from "./MapNearby";
+import PruebaNav from "./PruebaNav";
 
 const NearbyScreen = ({ spots, location }) => {
   return (
     <View>
-      <MapNearby spots={spots} location={location} />
+      <PruebaNav />
+      {/* <MapNearby spots={spots} location={location} /> */}
     </View>
   );
 };
