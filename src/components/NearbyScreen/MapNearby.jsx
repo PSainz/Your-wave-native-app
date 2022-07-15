@@ -10,7 +10,9 @@ import {
 import { Marker } from "react-native-maps";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { mapStyle } from "../../utils/mapStyle";
+import { OpenMapDirections } from "react-native-navigation-directions";
 import { decode } from "@mapbox/polyline";
+import GetDirections from "./GetDirections";
 
 const Map = ({ spots, location }) => {
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS;
@@ -46,6 +48,28 @@ const Map = ({ spots, location }) => {
   //       .catch((err) => console.log("Something went wrong"));
   //   }, []);
 
+  const prueba = (spot) => {
+    const mySpot = spots.slice(-1);
+    console.log(spot, "coordinate");
+    console.log("click");
+    const startPoint = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+
+    const endPoint = {
+      latitude: spot.location.lat,
+      longitude: spot.location.lng,
+    };
+
+    const transportPlan = "d";
+
+    OpenMapDirections(startPoint, endPoint, transportPlan).then((res) => {
+      console.log(res, "RESPONSE DEL GET DIRECTIONS");
+    });
+    // return <GetDirections spots={spots} location={location} />;
+  };
+
   const Loader = () => {
     return (
       <View>
@@ -77,6 +101,7 @@ const Map = ({ spots, location }) => {
             }}
             title={spot.spot_name}
             pinColor={"#84E0DA"}
+            onPress={() => prueba(spot)}
             //   description={marker.description}
           />
         ))}
@@ -85,6 +110,7 @@ const Map = ({ spots, location }) => {
           title={isActive ? "Show Map" : "Close Map"}
         /> */}
       </MapView>
+      {/* <GetDirections spots={spots} location={location} /> */}
     </View>
   ) : (
     <Loader />

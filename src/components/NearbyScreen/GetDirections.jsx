@@ -1,3 +1,45 @@
+import { OpenMapDirections } from "react-native-navigation-directions";
+import React from "react";
+import { StyleSheet, View, Text, Button } from "react-native";
+
+const GetDirections = ({ spots, location }) => {
+  const mySpot = spots.slice(-1);
+  // console.log(location, "MY SPOT");
+  const callShowDirections = () => {
+    console.log(mySpot, "MY SPOT");
+    const startPoint = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
+
+    const endPoint = {
+      latitude: mySpot[0].location.latitude,
+      longitude: mySpot[0].location.longitude,
+    };
+
+    const transportPlan = "d";
+
+    OpenMapDirections(startPoint, endPoint, transportPlan).then((res) => {
+      console.log(res, "RESPONSE DEL GET DIRECTIONS");
+    });
+  };
+
+  return (
+    <View>
+      <Text>Show direction between two random points!</Text>
+      <Button
+        onPress={() => {
+          callShowDirections();
+        }}
+        title="Open map"
+        color="#841584"
+      />
+    </View>
+  );
+};
+
+export default GetDirections;
+
 // import * as React from "react";
 // import { StyleSheet, View } from "react-native";
 // import MapboxNavigation from "@homee/react-native-mapbox-navigation";
@@ -44,42 +86,3 @@
 //     flex: 1,
 //   },
 // });
-
-import { OpenMapDirections } from "react-native-navigation-directions";
-import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
-
-export default class App extends React.Component {
-  _callShowDirections = () => {
-    const startPoint = {
-      longitude: -8.945406,
-      latitude: 38.575078,
-    };
-
-    const endPoint = {
-      longitude: -8.9454275,
-      latitude: 38.5722429,
-    };
-
-    const transportPlan = "w";
-
-    OpenMapDirections(startPoint, endPoint, transportPlan).then((res) => {
-      console.log(res);
-    });
-  };
-
-  render() {
-    return (
-      <View>
-        <Text>Show direction between two random points!</Text>
-        <Button
-          onPress={() => {
-            this._callShowDirections();
-          }}
-          title="Open map"
-          color="#841584"
-        />
-      </View>
-    );
-  }
-}
