@@ -1,12 +1,12 @@
 import React from "react";
 import { Text, View } from "react-native";
 import MapNearby from "./MapNearby";
-import GetDirections from "./GetDirections";
+import SpotInfo from "./SpotInfo";
 
 const NearbyScreen = ({ spots, location }) => {
   return (
     <View>
-      {/* <GetDirections spots={spots} location={location} /> */}
+      {/* <SpotInfo /> */}
       <MapNearby spots={spots} location={location} />
     </View>
   );

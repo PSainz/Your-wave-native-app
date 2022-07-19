@@ -108,7 +108,7 @@ export default function App() {
             }}>
               <FontAwesome5
                 name="home"
-                size={20}
+                size={30}
                 color={focused ? '#84E0DA' : 'gray'}
               ></FontAwesome5>
             </View>
@@ -161,9 +161,9 @@ export default function App() {
               top: 20
             }}>
               <FontAwesome5
-                name="user-alt"
-                size={20}
-                color={focused ? '#84E0DA' : 'black'}
+                name="search-location"
+                size={32}
+                color={focused ? '#84E0DA' : 'gray'}
               ></FontAwesome5>
             </View>
           )

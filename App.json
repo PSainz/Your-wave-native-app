@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "Your-wave-app",
-    "slug": "Your-wave-app",
+    "name": "your-wave-app",
+    "owner": "peps1234",
+    "slug": "your-wave-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,11 +17,15 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.pagepro.your-wave-app",
+      "buildNumber": "1",
       "config": {
         "googleMapsApiKey": "process.env.REACT_APP_GOOGLE_MAPS"
       }
     },
     "android": {
+      "package": "com.pagepro.your.wave.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
