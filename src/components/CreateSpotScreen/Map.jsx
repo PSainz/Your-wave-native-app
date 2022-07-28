@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,9 +15,18 @@ const Map = (props) => {
   const [region, setRegion] = useState(props.location || null);
   const [isActive, setIsActive] = useState(true);
 
-  if (region !== null) {
-    props.func(region);
-  }
+  const definitiveLocation = {
+    lat: region.coords.latitude,
+    lng: region.coords.longitude,
+  };
+
+  useEffect(() => {
+    if (region !== null) {
+      props.func(definitiveLocation);
+    }
+  }, []);
+
+  console.log(definitiveLocation, "definitiveLocation");
 
   const handlePress = (e) => {
     setIsActive((current) => !current);

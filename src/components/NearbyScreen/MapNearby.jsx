@@ -48,6 +48,18 @@ const MapNearby = ({ spots, location }) => {
     country: spot.country,
   }));
 
+  // const markers2 = [...markers];
+
+  markers.map((marker) => {
+    console.log(marker.coordinate, "MARKERS2");
+  });
+
+  // console.log(spots.location, "spots location");
+
+  spots.map((spot) => {
+    console.log(spot.location, "SPOTS LOCATON");
+  });
+
   useEffect(() => {
     mapAnimation.addListener(({ value }) => {
       let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
